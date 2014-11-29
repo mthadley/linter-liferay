@@ -11,6 +11,7 @@
         "atom": ">0.50.0"
     },
     "dependencies": {
-        "check-source-formatting": "~0.0.17"
+        "check-source-formatting": "~0.0.17",
+        "xregexp": "2.0.0"
     }
 }
