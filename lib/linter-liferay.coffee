@@ -20,7 +20,16 @@ class LinterLiferay extends Linter
 
     constructor: (editor) ->
         super(editor)
-        @cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-lint', '--no-color']
+
+        @disposables = [
+            atom.config.observe 'linter-liferay.lintJS', => @cmd = @formatCmd()
+            atom.config.observe 'linter-liferay.checkSFPath', => @cmd = @formatCmd()
+        ]
+
+    formatCmd: ->
+        cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-color']
+        cmd.push '--no-lint' if !atom.config.get('linter-liferay.lintJS')
+        return cmd
 
     processMessage: (message, callback) ->
         messages = []
@@ -48,5 +57,8 @@ class LinterLiferay extends Linter
         , this
 
         callback messages
+
+    destroy: ->
+        disposable.dispose() for disposable in @disposables
 
 module.exports = LinterLiferay
