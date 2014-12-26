@@ -5,7 +5,14 @@ Linter = require "#{linterPath}/lib/linter"
 class LinterLiferay extends Linter
 
     # Syntaxes supported by check_sf
-    @syntax: ['text.html', 'text.html.jsp', 'source.js', 'source.css', 'source.css.scss']
+    @syntax: [
+        'source.css.scss'
+        'source.css'
+        'source.js'
+        'source.velocity'
+        'text.html.jsp'
+        'text.html'
+    ]
 
     defaultLevel: 'warning'
 
@@ -28,7 +35,7 @@ class LinterLiferay extends Linter
 
     formatCmd: ->
         cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-color']
-        cmd.push '--no-lint' if !atom.config.get('linter-liferay.lintJS')
+        cmd.push '--no-lint' unless atom.config.get('linter-liferay.lintJS')
         return cmd
 
     processMessage: (message, callback) ->
