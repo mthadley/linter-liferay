@@ -1,17 +1,17 @@
 {
-    "name": "linter-liferay",
-    "main": "./lib/init",
-    "linter-package": true,
-    "activationEvents": [],
-    "version": "0.0.0",
-    "description": "Linter plugin for Liferay, using check-source-formatting",
-    "repository": "https://github.com/mthadley/linter-liferay.git",
-    "license": "MIT",
-    "engines": {
-        "atom": ">0.50.0"
-    },
-    "dependencies": {
-        "check-source-formatting": "~0.0.17",
-        "xregexp": "2.0.0"
-    }
+  "name": "linter-liferay",
+  "main": "./lib/init",
+  "linter-package": true,
+  "activationEvents": [],
+  "version": "0.1.0",
+  "description": "Linter plugin for Liferay, using check-source-formatting",
+  "repository": "https://github.com/mthadley/linter-liferay.git",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "check-source-formatting": "~0.0.17",
+    "xregexp": "2.0.0"
+  }
 }
