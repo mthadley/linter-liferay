@@ -21,7 +21,7 @@ class LinterLiferay extends Linter
     linterName: 'Liferay'
 
     # Regex to extract linting information from check_sf
-    regex: 'Lines?:?\\s+(?<lineA>\\d+)(?<lineB>\\-\\d+)?\\s+(?<message>.*)'
+    regex: 'Lines?\\s+(?<lineA>\\d+)(?<lineB>\\-\\d+)?:\\s+(?<message>.*)'
 
     regexFlags: 'i'
 
