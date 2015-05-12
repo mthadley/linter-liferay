@@ -2,7 +2,7 @@
   "name": "linter-liferay",
   "main": "./lib/init",
   "linter-package": true,
-  "activationEvents": [],
+  "activationCommands": {},
   "version": "1.0.0",
   "description": "Linter plugin for Liferay, using check-source-formatting",
   "repository": "https://github.com/mthadley/linter-liferay.git",
