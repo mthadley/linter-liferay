@@ -51,6 +51,8 @@ class LinterLiferay extends Linter
                 match.lineStart = lineA
                 match.lineEnd = lineB.substr 1
 
+            match.col ?= 0
+
             msg = {
                 col: match.col
                 level: @defaultLevel
