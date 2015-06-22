@@ -45,13 +45,12 @@ class LinterLiferay extends Linter
         XRegExp.forEach message, regex, (match, i) =>
             {lineA, lineB, message} = match
 
-            match.line = lineA
+            match.col ?= 0
+            match.line = lineA or 0;
 
             if lineB?
                 match.lineStart = lineA
                 match.lineEnd = lineB.substr 1
-
-            match.col ?= 0
 
             msg = {
                 col: match.col
