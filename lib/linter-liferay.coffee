@@ -21,7 +21,7 @@ class LinterLiferay extends Linter
     linterName: 'Liferay'
 
     # Regex to extract linting information from check_sf
-    regex: 'Lines?\\s+(?<lineA>\\d+)(?<lineB>\\-\\d+)?:\\s+(?<message>.*)'
+    regex: 'Lines?\\s+(?<lineA>\\d+)(?<lineB>\\-\\d+)?(?:,\\s+Column\\s+)?(?<col>\\d+)?:\\s+(?<message>.*)'
 
     regexFlags: 'i'
 
@@ -34,7 +34,7 @@ class LinterLiferay extends Linter
         ]
 
     formatCmd: ->
-        cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-color']
+        cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-color', '--show-columns']
         cmd.push '--no-lint' unless atom.config.get('linter-liferay.lintJS')
         return cmd
 
