@@ -1,11 +1,8 @@
-linterPath = atom.packages.getLoadedPackage("linter").path
-Linter = require "#{linterPath}/lib/linter"
+{BufferedProcess, CompositeDisposable} = require 'atom'
 {XRegExp} = require 'xregexp'
 
-class LinterLiferay extends Linter
-
-	# Syntaxes supported by check_sf
-	@syntax: [
+class LinterLiferay
+	grammarScopes: [
 		'source.css.scss'
 		'source.css'
 		'source.js'
@@ -14,59 +11,86 @@ class LinterLiferay extends Linter
 		'text.html'
 	]
 
-	defaultLevel: 'warning'
-
-	isNodeExecutable: yes
-
-	linterName: 'Liferay'
-
-	# Regex to extract linting information from check_sf
-	regex: 'Lines?\\s+(?<lineA>\\d+)(?<lineB>\\-\\d+)?(?:,\\s+Column\\s+)?(?<col>\\d+)?:\\s+(?<message>.*)'
+	regex: 'Lines?\\s+(?<lineStart>\\d+)(?<lineEnd>\\-\\d+)?(?:,\\s+Column\\s+)?(?<col>\\d+)?:\\s+(?<message>.*)'
 
 	regexFlags: 'i'
 
-	constructor: (editor) ->
-		super(editor)
+	constructor: () ->
+		@subscriptions = new CompositeDisposable
 
-		@disposables = [
-			atom.config.observe 'linter-liferay.lintJS', => @cmd = @formatCmd()
-			atom.config.observe 'linter-liferay.checkSFPath', => @cmd = @formatCmd()
-		]
+		@subscriptions.add atom.config.observe 'linter-liferay.lintJS', => @args = @formatArgs()
+		@subscriptions.add atom.config.observe 'linter-liferay.checkSFPath', =>
+			@cmd = atom.config.get('linter-liferay.checkSFPath')
 
-	formatCmd: ->
-		cmd = [atom.config.get('linter-liferay.checkSFPath'), '--no-color', '--show-columns']
-		cmd.push '--no-lint' unless atom.config.get('linter-liferay.lintJS')
-		return cmd
+	formatArgs: ->
+		args = ['--no-color', '--show-columns']
+		args.push '--no-lint' unless atom.config.get('linter-liferay.lintJS')
+		args
 
-	processMessage: (message, callback) ->
+	getProvider: ->
+		provider =
+			grammarScopes: @grammarScopes
+			scope: 'file'
+			lintOnFly: true
+			lint: (editor) =>
+				@editor = editor
+				@lint()
+
+
+	lint: =>
+		new Promise (resolve, reject) =>
+			filePath = @editor.getPath()
+			output = []
+
+			process = new BufferedProcess
+				command: @cmd
+				args: [@args..., filePath]
+				stdout: (data) ->
+					output.push data
+				exit: (code) =>
+					return resolve [] unless code is 0
+					resolve @getMessages(output.join '\n')
+
+			process.onWillThrowError ({error, handle}) =>
+				atom.notifications.addError "Cannot execute #{@cmd}",
+					detail: error.message
+					dismissable: true
+
+				handle()
+				reject error
+
+	getMessages: (output) ->
 		messages = []
 		regex = XRegExp @regex, @regexFlags
 
-		XRegExp.forEach message, regex, (match, i) =>
-			{lineA, lineB, message} = match
-
-			match.col ?= 0
-			match.line = lineA or 0;
-
-			if lineB?
-				match.lineStart = lineA
-				match.lineEnd = lineB.substr 1
-
-			msg = {
-				col: match.col
-				level: @defaultLevel
-				line: match.line
-				linter: @linterName
-				message: @formatMessage match
+		XRegExp.forEach output, regex, (match, i) =>
+			msg =
 				range: @computeRange match
-			}
+				type: 'warning'
+				text: match.message
 
-			messages.push msg if msg.range?
+			messages.push msg
 		, this
 
-		callback messages
+		messages
+
+	computeRange: (match) ->
+		rowStart = match.lineStart
+		rowEnd = match.lineEnd ? rowStart
+
+		colStart = match.col ? 1
+
+		# check_sf only outputs starting column
+		rowEndLength = @editor.lineTextForBufferRow(rowEnd - 1)?.length
+		colEnd = rowEndLength ? 1
+
+		# Ranges are 0-based
+		[
+			[rowStart - 1, colStart - 1],
+			[rowEnd - 1, colEnd - 1]
+		]
 
 	destroy: ->
-		disposable.dispose() for disposable in @disposables
+		@subscriptions.dispose()
 
 module.exports = LinterLiferay

@@ -1,9 +1,10 @@
 path = require 'path'
+LinterLiferay = require './linter-liferay'
 
 module.exports =
 	config:
 		lintJS:
-			default: no
+			default: true
 			description: 'Check javascript source for errors in addition to formatting'
 			title: 'Lint Javascript'
 			type: 'boolean'
@@ -14,7 +15,10 @@ module.exports =
 			type: 'string'
 
 	activate: ->
-		console.log 'activate linter-liferay'
+		@linter = new LinterLiferay
+
+	deactivate: ->
+		@linter.destroy()
 
 	provideLinter: ->
-		{}
+		@linter.getProvider()
