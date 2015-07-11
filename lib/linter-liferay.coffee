@@ -15,7 +15,7 @@ class LinterLiferay
 
 	regexFlags: 'i'
 
-	constructor: () ->
+	constructor: ->
 		@subscriptions = new CompositeDisposable
 
 		@subscriptions.add atom.config.observe 'linter-liferay.lintJS', => @args = @formatArgs()
@@ -63,13 +63,11 @@ class LinterLiferay
 		regex = XRegExp @regex, @regexFlags
 
 		XRegExp.forEach output, regex, (match, i) =>
-			msg =
+			messages.push
 				filePath: @editor.getPath()
 				range: @computeRange match
 				type: 'warning'
 				text: match.message
-
-			messages.push msg
 		, this
 
 		messages
@@ -86,8 +84,8 @@ class LinterLiferay
 
 		# Ranges are 0-based
 		[
-			[rowStart - 1, colStart - 1],
-			[rowEnd - 1, colEnd - 1]
+			[--rowStart, --colStart],
+			[--rowEnd, --colEnd]
 		]
 
 	destroy: ->
