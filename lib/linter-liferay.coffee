@@ -68,7 +68,6 @@ class LinterLiferay
 				range: @computeRange match
 				type: 'warning'
 				text: match.message
-		, this
 
 		messages
 
