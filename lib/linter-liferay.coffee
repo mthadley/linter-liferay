@@ -37,7 +37,7 @@ class LinterLiferay
 				@lint()
 
 
-	lint: =>
+	lint: ->
 		new Promise (resolve, reject) =>
 			filePath = @editor.getPath()
 			output = []
