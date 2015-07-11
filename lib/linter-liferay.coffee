@@ -39,12 +39,11 @@ class LinterLiferay
 
 	lint: ->
 		new Promise (resolve, reject) =>
-			filePath = @editor.getPath()
 			output = []
 
 			process = new BufferedProcess
 				command: @cmd
-				args: [@args..., filePath]
+				args: [@args..., @editor.getPath()]
 				stdout: (data) ->
 					output.push data
 				exit: (code) =>
@@ -65,6 +64,7 @@ class LinterLiferay
 
 		XRegExp.forEach output, regex, (match, i) =>
 			msg =
+				filePath: @editor.getPath()
 				range: @computeRange match
 				type: 'warning'
 				text: match.message
