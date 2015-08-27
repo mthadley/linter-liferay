@@ -8,6 +8,7 @@ class LinterLiferay
 		'source.js'
 		'source.velocity'
 		'text.html.jsp'
+		'text.html.mustache'
 		'text.html'
 	]
 

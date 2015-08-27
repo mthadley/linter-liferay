@@ -17,7 +17,7 @@
     }
   },
   "dependencies": {
-    "check-source-formatting": "^1.0.25",
+    "check-source-formatting": "^1.1.1",
     "xregexp": "2.0.0"
   }
 }
