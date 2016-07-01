@@ -1,5 +1,6 @@
 {BufferedProcess, CompositeDisposable} = require 'atom'
-{XRegExp} = require 'xregexp'
+path = require 'path'
+XRegExp = require 'xregexp'
 
 class LinterLiferay
 	grammarScopes: [
@@ -42,9 +43,14 @@ class LinterLiferay
 		new Promise (resolve, reject) =>
 			output = []
 
+			filePath = @editor.getPath()
+
 			process = new BufferedProcess
 				command: @cmd
-				args: [@args..., @editor.getPath()]
+				args: [@args..., filePath]
+				options: {
+					cwd: path.dirname filePath
+				}
 				stdout: (data) ->
 					output.push data
 				exit: (code) =>
