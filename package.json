@@ -18,6 +18,6 @@
   },
   "dependencies": {
     "check-source-formatting": "^2.0.0-rc.6",
-    "xregexp": "2.0.0"
+    "xregexp": "^3.1.1"
   }
 }
