@@ -1,13 +1,13 @@
 {
   "name": "linter-liferay",
   "main": "./lib/init",
-  "activationCommands": {},
+  "author": "Michael Hadley",
   "version": "2.2.0",
   "description": "Linter plugin for Liferay, using check-source-formatting",
   "repository": "https://github.com/mthadley/linter-liferay.git",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=1.4.0 <2.0.0"
   },
   "providedServices": {
     "linter": {
@@ -17,7 +17,6 @@
     }
   },
   "dependencies": {
-    "check-source-formatting": "^2.0.0-rc.6",
-    "xregexp": "^3.1.1"
+    "check-source-formatting": "^2.0.0-rc.6"
   }
 }
