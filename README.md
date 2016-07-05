@@ -6,14 +6,8 @@
 
 ## Installation
 
-First you will need to install the `linter` package:
+Run the following in a terminal:
 
-```console
-$ apm install linter
-```
-
-Then install the plugin:
-
-```console
-$ apm install linter-liferay
+```ShellSession
+$ apm install linter linter-liferay
 ```
