@@ -47,7 +47,7 @@ describe('linter-liferay', () => {
         })
       })
 
-      waitsFor(() => flag, 'reachedTimeout', 2000)
+      waitsFor(() => flag, 'reachedTimeout', 5000)
 
       runs(() => {
         expect(value).toBeInstanceOf(Array)
