@@ -24,7 +24,7 @@ describe('linter-liferay', () => {
     it('should return a linter object', () => {
       const linter = linterLiferay.provideLinter();
 
-      ['grammarScopes', 'lint', 'lintOnFly', 'scope'].forEach(
+      ['grammarScopes', 'lint', 'lintOnFly', 'name', 'scope'].forEach(
         attr => expect(linter[attr]).toBeDefined()
       )
     })
