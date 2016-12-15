@@ -6,6 +6,7 @@ import {BufferedProcess} from 'atom'
 import LinterLiferay from '../lib/linter-liferay'
 
 const TEST_FILE_PATH = path.join(__dirname, 'fixtures', 'test.js')
+const TEST_FILE_PATH_WITH_CONFIG = path.join(__dirname, 'fixtures', 'with-config', 'test.js')
 
 describe('linter-liferay', () => {
   let linterLiferay
@@ -65,6 +66,28 @@ describe('linter-liferay', () => {
     it('should return a promise with the lint result', () => {
       waitsForPromise(() =>
         atom.workspace.open(TEST_FILE_PATH).then(
+          editor => linterLiferay._lint(editor)
+        ).then(
+          result => expect(result).toBeDefined()
+        )
+      )
+    })
+
+    it('should return undefined if requireConfig is true and no config is found', () => {
+      linterLiferay._requireConfig = true
+      waitsForPromise(() =>
+        atom.workspace.open(TEST_FILE_PATH).then(
+          editor => linterLiferay._lint(editor)
+        ).then(
+          result => expect(result).toBeUndefined()
+        )
+      )
+    })
+
+    it('should return a promise if requireConfig is true and config is found', () => {
+      linterLiferay._requireConfig = true
+      waitsForPromise(() =>
+        atom.workspace.open(TEST_FILE_PATH_WITH_CONFIG).then(
           editor => linterLiferay._lint(editor)
         ).then(
           result => expect(result).toBeDefined()
