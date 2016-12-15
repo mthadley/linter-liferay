@@ -17,6 +17,7 @@
     }
   },
   "dependencies": {
+    "atom-linter": "^8.0.0",
     "check-source-formatting": "^2.0.0-rc.6"
   }
 }
