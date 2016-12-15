@@ -2,7 +2,7 @@
   "name": "linter-liferay",
   "main": "./lib/init",
   "author": "Michael Hadley",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Linter plugin for Liferay, using check-source-formatting",
   "repository": "https://github.com/mthadley/linter-liferay.git",
   "license": "MIT",
