@@ -25,7 +25,7 @@ describe('linter-liferay', () => {
     it('should return a linter object', () => {
       const linter = linterLiferay.provideLinter();
 
-      ['grammarScopes', 'lint', 'lintOnFly', 'name', 'scope'].forEach(
+      ['grammarScopes', 'lint', 'lintsOnChange', 'name', 'scope'].forEach(
         attr => expect(linter[attr]).toBeDefined()
       )
     })
@@ -118,10 +118,10 @@ describe('linter-liferay', () => {
 
             const message = messages[0]
 
-            expect(message.filePath).toBe(TEST_FILE_PATH)
-            expect(message.range).toBeInstanceOf(Array)
-            expect(message.type).toBe('warning')
-            expect(message.text).toMatch('defined but never')
+            expect(message.excerpt).toMatch('defined but never')
+            expect(message.location.file).toBe(TEST_FILE_PATH)
+            expect(message.location.position).toBeInstanceOf(Array)
+            expect(message.severity).toBe('warning')
           }
         )
       )
