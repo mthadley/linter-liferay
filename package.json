@@ -1,7 +1,10 @@
 {
   "name": "linter-liferay",
   "main": "./lib/init",
-  "author": "Michael Hadley",
+  "author": "Michael Hadley <mikethadley@gmail.com>",
+  "contributors": [
+    "Bryce Osterhaus <bryceosterhaus@gmail.com>"
+  ],
   "version": "3.0.0",
   "description": "Linter plugin for Liferay, using check-source-formatting",
   "repository": "https://github.com/mthadley/linter-liferay.git",
